@@ -5,7 +5,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const client = require('./lib/client');
+const client = require('./lib/client.js');
 // Initiate database connection
 client.connect();
 
