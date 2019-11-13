@@ -5,8 +5,10 @@ import TodoItem from './TodoItem.js';
 class TodoList extends Component {
     
     onRender(list) {
+        const todos = this.props.todos;
+
         todos.forEach(todo => {
-            const todos = this.props.todos;
+            const props = { todo: todo };
             const onUpdate = this.props.onUpdate;
             const onRemove = this.props.onRemove;
             const todoItem = new TodoItem(props);

@@ -20,6 +20,8 @@ app.use(express.json()); // enable reading incoming json data
 // API Routes
 
 // *** TODOS ***
+
+
 app.get('/api/todos', async (req, res) => {
 
     try {
@@ -72,9 +74,6 @@ app.put('/api/todos/:id', async (req, res) => {
             todos *,
             FROM todos,
             
-
-
-            
         `, [id, todo.complete]);
      
         res.json(result.rows[0]);
@@ -93,8 +92,10 @@ app.delete('/api/todos/:id', async (req, res) => {
 
     try {
         const result = await client.query(`
+            DELETE todo,
+            WHERE id
          
-        `, [/* pass data */]);
+        `, [id]);
         
         res.json(result.rows[0]);
     }
