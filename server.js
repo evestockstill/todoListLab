@@ -75,7 +75,7 @@ app.put('/api/todos/:id', async (req, res) => {
 
 
             
-        `, [id, todo]);
+        `, [id, todo.complete]);
      
         res.json(result.rows[0]);
     }
