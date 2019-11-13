@@ -2,7 +2,7 @@
 
 body {
     font-family: 'Heebo', "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
-    background: rgb(236, 229, 238);
+    background: hsla(177, 100%, 23%, 1);
     line-height: 1.5em;
 }
 

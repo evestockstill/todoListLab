@@ -26,16 +26,18 @@ class TodoItem extends Component {
         const todo = this.props.todo;
 
         return /*html*/`
-            <li class="cat-type">
-                <span class="${todo.inactive ? 'inactive' : ''}">${todo.task}</span>
+            <li class="todo-list">
+            <div class="todo-wrap">
+                <span class="${ todo.inactive ? 'inactive' : ''}">${todo.task }</span>
                 <div>
                     <button class="inactive-button">
-                        Make ${todo.inactive ? 'Active' : 'Inactive'}
+                         Make ${ todo.inactive ? 'Active' : 'Inactive'}
                     </button>
                     
                     <button class="remove-button">
                         🗑
                     </button>
+                    </div>
                 </div>
             </li>
         `;

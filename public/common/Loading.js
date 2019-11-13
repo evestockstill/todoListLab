@@ -7,10 +7,8 @@ class Loading extends Component {
             return /*html*/`<div></div>`;
         }
         
-        return /*html*/`
-            <div class="loading-container">
-                <img src="assets/loading.gif">
-            </div>
+        return /*html*/ `
+            <div class="lds-ripple"><div></div><div></div></div>
         `;
     }
 }
