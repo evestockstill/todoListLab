@@ -1,20 +1,24 @@
 import Component from '../Component.js';
-import { addTodo } from '../services/todo-api.js';
+
+
 class AddTodo extends Component {
 
-    onRender(form) {
+    onRender(dom) {
         const onAdd = this.props.onAdd;
+        const form = dom.querySelector('form');
+        const input = dom.querySelector('input[task=todo]');
         
         form.addEventListener('submit', async event => {
             event.preventDefault();
-            const formData = new FormData(form);
-
-            const todo = {
-                task: formData.get('task')
+           
+            const todoList = {
+                task: input.value
             };
 
+           
+
             try {
-                const saved = await addTodo();
+                await onAdd(todoList);
                 // this only runs if no error:
                 form.reset();
                 document.activeElement.blur();
@@ -28,20 +32,13 @@ class AddTodo extends Component {
     }
 
     renderHTML() {
-        return /*html*/`
-        <div class="container">
-        <form class="todo-items">
-        <div class="todo-input">
-        <input type="text" class="form-input" name="item" placeholder="Add a todo item" value="new todo"> <button type="submit" class="btn">Submit</button>
-        </div>
-        </form>
-        <div class="rows-todo">
-        <ul class="todo-list">
-        </ul>
-        </div>
-        </div>
-
-           
+        return /*html*/ `
+        <section class="type-form-section">
+                <form class="type-form">
+                    <input name="todo" required>
+                    <button>Add</button>
+                </form>
+            </section>  
         `;
     }
 }
