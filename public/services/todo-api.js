@@ -31,10 +31,22 @@ export function addTodo(todo) {
 }
 
 export function updateTodo(todo) {  
+    const url = `${URL}/todos/${todo.id}`;
+    return fetchWithError(url, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(todo)
+    });
     
 }
 
 export function removeTodo(todoId) {  
+    const url = `${URL}/todos/${todoId}`;
+    return fetchWithError(url, {
+        method: 'DELETE'
+    });
     
 }
 

@@ -3,18 +3,19 @@ import Component from '../Component.js';
 
 class AddTodo extends Component {
 
-    onRender(dom) {
+    onRender(form) {
         const onAdd = this.props.onAdd;
-        const form = dom.querySelector('form');
-        const input = dom.querySelector('input[task=todo]');
+        const input = form.querySelector('input[name=task]');
         
         form.addEventListener('submit', async event => {
             event.preventDefault();
+            const newTodo = input.value;
            
             const todoList = {
-                task: input.value
+                task: newTodo,
+                complete: false
             };
-
+            console.log(todoList);
            
 
             try {
@@ -22,7 +23,7 @@ class AddTodo extends Component {
                 // this only runs if no error:
                 form.reset();
                 document.activeElement.blur();
-                window.location = `todo.html?id${saved.id}`;
+                // window.location = `todo.html?id${saved.id}`;
             }
             // eslint-disable-next-line no-empty
             catch (err) {
@@ -35,7 +36,7 @@ class AddTodo extends Component {
         return /*html*/ `
         <section class="type-form-section">
                 <form class="type-form">
-                    <input name="todo" required>
+                    <input name="task" required>
                     <button>Add</button>
                 </form>
             </section>  
