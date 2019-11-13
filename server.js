@@ -24,6 +24,8 @@ app.get('/api/todos', async (req, res) => {
 
     try {
         const result = await client.query(`
+            SELECT * 
+            FROM todos
             
         `);
 
@@ -43,9 +45,12 @@ app.post('/api/todos', async (req, res) => {
 
     try {
         const result = await client.query(`
+            INSERT INTO todo (task, complete)
+            VALUES ($1, $2)
+            RETURNING *;
             
         `,
-        [/* pass in data */]);
+        [todo.task, todo.complete]);
 
         res.json(result.rows[0]);
     }
@@ -63,8 +68,14 @@ app.put('/api/todos/:id', async (req, res) => {
 
     try {
         const result = await client.query(`
+            SELECT
+            todos *,
+            FROM todos,
             
-        `, [/* pass in data */]);
+
+
+            
+        `, [id, todo]);
      
         res.json(result.rows[0]);
     }

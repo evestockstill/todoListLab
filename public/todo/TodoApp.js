@@ -6,7 +6,7 @@ import TodoList from './TodoList.js';
 import { getTodos, addTodo, updateTodo, removeTodo } from '../services/todo-api.js';
 
 class TodoApp extends Component {
-
+//add fetch call here
     async onRender(dom) {
         const header = new Header({ title: 'My Todos' });
         dom.prepend(header.renderDOM());
@@ -19,9 +19,13 @@ class TodoApp extends Component {
 
         // initial todo load:
         try {
+            const todos = await getTodos();
+            const todoList = new TodoList({ todos });
+            main.appendChild(todoList.renderDOM());
             
         }
         catch (err) {
+            console.log(error);
             // display error...
         }
         finally {
