@@ -1,0 +1,37 @@
+.todo-wrap, input, .todo-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    outline: none;
+}
+input {
+    height: 40px;
+    width: 150px;
+}
+.type-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    outline: none;
+}
+span {
+    margin-right: 10px;
+}
+.inactive-button {
+  
+    width: 6rem;
+}
+.remove-button {
+    width: 2rem;
+    background: hsla(343, 100%, 18%, 1);
+}
+button {
+    padding: 3px;
+    color: white;
+    font-size: .7rem;
+    border-radius: 5px;
+    background: hsla(159, 100%, 16%, 1);
+    outline: none;
+}

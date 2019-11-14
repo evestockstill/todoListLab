@@ -1,0 +1,35 @@
+
+header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    justify-content: space-around;
+    background: #f8f3f3;
+    border-bottom: 5px solid hsla(49, 100%, 40%, 1);
+}
+
+img.logo {
+    height: 100px;
+    border: 1px solid black;
+    border-radius: 100%;
+    box-shadow: 1px 1px 4px 4px hsla(0, 0%, 11%, 1);
+}
+
+h1 {
+    font-size: 2em;
+    font-family: 'Oswald';
+    font-weight: bold;
+    margin: 0 20px;
+    flex-grow: 1;
+}
+
+nav a {
+    display: block;
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 1rem 1rem;
+    font-style: italic;
+    color:  hsla(49, 100%, 40%, 1);
+    text-transform: capitalize;
+    transition: all 1s ease;
+}
