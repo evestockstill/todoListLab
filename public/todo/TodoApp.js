@@ -88,6 +88,7 @@ class TodoApp extends Component {
             const todos = await getTodos({ showAll: true });
             this.state.todos = todos;
             todoList.update({ todos });
+            console.log(todos);
         }
         catch (err) {
             console.log(err);

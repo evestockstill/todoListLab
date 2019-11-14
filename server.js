@@ -63,15 +63,12 @@ app.get('/api/todos', async (req, res) => {
 
     try {
         const result = await client.query(`
-            SELECT 
-            t.id,
-            t.task,
-            t.user_id
-            u.id as userId
-            FROM todos t
-            JOIN users u
-            ON t.user_id = u.id
-        `);
+            SELECT *
+            FROM todos 
+            WHERE user_id=$1
+            
+        `[req.userId]
+        );
 
         res.json(result.rows);
     }
