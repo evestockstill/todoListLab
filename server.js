@@ -67,7 +67,7 @@ app.get('/api/todos', async (req, res) => {
             FROM todos 
             WHERE user_id=$1
             
-        `[req.userId]
+        `, [req.userId]
         );
 
         res.json(result.rows);
@@ -108,14 +108,17 @@ app.put('/api/todos/:id', async (req, res) => {
     const todo = req.body;
 
     try {
-        const result = await client.query(`
+        const result = await client.query(
+            `
             UPDATE todos
             SET task = $2,
             complete = $3
             WHERE id = $1
             RETURNING *;
 
-        `, [id, todo.task, todo.complete]);
+        `,
+            [id, todo.task, todo.complete]
+        );
      
         res.json(result.rows[0]);
     }
@@ -132,11 +135,14 @@ app.delete('/api/todos/:id', async (req, res) => {
     const id = req.params.id; // ???
 
     try {
-        const result = await client.query(`
+        const result = await client.query(
+            `
             DELETE FROM todos
-            WHERE id = $1
+            WHERE user_id=$1
             RETURNING *;
-        `, [id]);
+        `,
+            [id]
+        );
         
         res.json(result.rows[0]);
     }

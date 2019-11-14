@@ -85,7 +85,7 @@ class TodoApp extends Component {
         main.appendChild(todoList.renderDOM());
     
         try {
-            const todos = await getTodos({ showAll: true });
+            const todos = await getTodos();
             this.state.todos = todos;
             todoList.update({ todos });
             console.log(todos);
@@ -97,7 +97,7 @@ class TodoApp extends Component {
             loading.update({ loading: false });
         }  
     }     
-
+    
     renderHTML() {
         return /*html*/`
             <div>

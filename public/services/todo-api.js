@@ -33,7 +33,8 @@ export function signUp(user) {
     return fetchWithError(url, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': token
         },
         body: JSON.stringify(user)
     });
@@ -44,7 +45,8 @@ export function signIn(credentials) {
     return fetchWithError(url, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': token
         },
         body: JSON.stringify(credentials)
     });
@@ -66,6 +68,7 @@ export function addTodo(todo) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': token
         },
         body: JSON.stringify(todo)
     });
@@ -78,6 +81,7 @@ export function updateTodo(todo) {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': token
         },
         body: JSON.stringify(todo)
     });
