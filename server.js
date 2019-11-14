@@ -15,7 +15,7 @@ const authRoutes = createAuthRoutes({
         return client
             .query(
                 `
-            SELECT id, email, hash 
+            SELECT id, email, hash, display_name as "displayName"  
             FROM users
             WHERE email = $1;
         `,
@@ -28,11 +28,11 @@ const authRoutes = createAuthRoutes({
         return client
             .query(
                 `
-            INSERT into users (email, hash)
-            VALUES ($1, $2,)
-            RETURNING id, email;
+            INSERT into users (email, hash, display_name)
+            VALUES ($1, $2, $3)
+            RETURNING id, email, display_name as "displayName";
         `,
-                [user.email, hash]
+                [user.email, hash, user.displayName]
             )
             .then(result => result.rows[0]);
     }
@@ -64,13 +64,14 @@ app.get('/api/todos', async (req, res) => {
     try {
         const result = await client.query(`
             SELECT 
-            todo.id,
-            todo.task,
-            todo.type_id,
-            todo.task as type,
+            t.id,
+            t.task,
+            t.user_id,
+            u.email as user
             FROM todos t
-            JOIN types t
-            ON t.type_id = t.id
+            JOIN users u
+            ON t.user_id = u.id
+            ORDER BY t.task
             
         `);
 
@@ -104,6 +105,33 @@ app.post('/api/todos', async (req, res) => {
         res.status(500).json({
             error: err.message || err
         });
+    }
+});
+app.post('/api/users', async (req, res) => {
+    const user = req.body;
+
+    try {
+        const result = await client.query(
+            `
+            INSERT INTO user (email)
+            VALUES ($1)
+            RETURNING *;
+        `,
+            [user.email]
+        );
+
+        res.json(result.rows[0]);
+    } catch (err) {
+        if (err.code === '23505') {
+            res.status(400).json({
+                error: `Type "${user.email}" already exists`
+            });
+        } else {
+            console.log(err);
+            res.status(500).json({
+                error: err.message || err
+            });
+        }
     }
 });
 
