@@ -3,6 +3,7 @@ const client = require('../lib/client');
 const todos = require('./todos');
 const users = require('./users');
 
+
 run();
 
 async function run() {
@@ -12,11 +13,11 @@ async function run() {
         const savedUsers = await Promise.all (
             users.map(async user => {
                 const result = await client.query(`
-                    INSERT INTO users (email)
-                    VALUES ($1)
+                    INSERT INTO users (id, email, hash)
+                    VALUES ($1, $2, $3)
                     RETURNING *;
                     `,
-                [user]);
+                [user.id, user.email, user.hash]);
                 return result.row[0];
             })
         );
@@ -24,14 +25,14 @@ async function run() {
         await Promise.all(
             todos.map(todo => {
                 const user = savedUsers.find(user => {
-                    return user.email === todo.user;
+                    return user.id === todo.user_id;
                 });
-                const userId = users.id;
+                
                 return client.query(`
-                    INSERT INTO todos (user_id, email, hash, task, complete)
-                    VALUES ($1, $2, $3, $4, $5);
+                    INSERT INTO todos (user_id, task, complete)
+                    VALUES ($1, $2, $3);
                 `,
-                [userId, user.email, users.hash, todo.task, todo.complete]);
+                [user.id, todo.task, todo.complete]);
             })
         );
 
