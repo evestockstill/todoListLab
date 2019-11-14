@@ -10,7 +10,7 @@ async function run() {
 
     try {
         await client.connect();
-        const savedUsers = await Promise.all (
+        await Promise.all (
             users.map(async user => {
                 const result = await client.query(`
                     INSERT INTO users (id, email, hash)
@@ -18,13 +18,13 @@ async function run() {
                     RETURNING *;
                     `,
                 [user.id, user.email, user.hash]);
-                return result.row[0];
+                return result.rows[0];
             })
         );
 
         await Promise.all(
             todos.map(todo => {
-                const user = savedUsers.find(user => {
+                const user = users.find(user => {
                     return user.id === todo.user_id;
                 });
                 

@@ -37,6 +37,7 @@ class App extends Component {
         const signUp = new SignUp({
             onSignUp: async newUser => {
                 errors.textContent = '';
+                console.log(newUser);
                 try {
                     const user = await userSignUp(newUser);
                     success(user);

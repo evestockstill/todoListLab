@@ -15,7 +15,7 @@ const authRoutes = createAuthRoutes({
         return client
             .query(
                 `
-            SELECT id, email, hash, display_name as "displayName"  
+            SELECT id, email, hash 
             FROM users
             WHERE email = $1;
         `,
@@ -28,11 +28,11 @@ const authRoutes = createAuthRoutes({
         return client
             .query(
                 `
-            INSERT into users (email, hash, display_name)
-            VALUES ($1, $2, $3)
-            RETURNING id, email, display_name as "displayName";
+            INSERT into users (email, hash)
+            VALUES ($1, $2)
+            RETURNING id, email;
         `,
-                [user.email, hash, user.displayName]
+                [user.email, hash]
             )
             .then(result => result.rows[0]);
     }
@@ -66,13 +66,11 @@ app.get('/api/todos', async (req, res) => {
             SELECT 
             t.id,
             t.task,
-            t.user_id,
-            u.email as user
+            t.user_id
+            u.id as userId
             FROM todos t
             JOIN users u
             ON t.user_id = u.id
-            ORDER BY t.task
-            
         `);
 
         res.json(result.rows);
@@ -91,12 +89,12 @@ app.post('/api/todos', async (req, res) => {
     console.log(todo);
     try {
         const result = await client.query(`
-            INSERT INTO todos (task, complete)
-            VALUES ($1, $2)
+            INSERT INTO todos (user_id, task, complete)
+            VALUES ($1, $2, $3)
             RETURNING *;
             
         `,
-        [todo.task, todo.complete]);
+        [req.userId, todo.task, todo.complete]);
 
         res.json(result.rows[0]);
     }
@@ -105,33 +103,6 @@ app.post('/api/todos', async (req, res) => {
         res.status(500).json({
             error: err.message || err
         });
-    }
-});
-app.post('/api/users', async (req, res) => {
-    const user = req.body;
-
-    try {
-        const result = await client.query(
-            `
-            INSERT INTO user (email)
-            VALUES ($1)
-            RETURNING *;
-        `,
-            [user.email]
-        );
-
-        res.json(result.rows[0]);
-    } catch (err) {
-        if (err.code === '23505') {
-            res.status(400).json({
-                error: `Type "${user.email}" already exists`
-            });
-        } else {
-            console.log(err);
-            res.status(500).json({
-                error: err.message || err
-            });
-        }
     }
 });
 
@@ -168,7 +139,6 @@ app.delete('/api/todos/:id', async (req, res) => {
             DELETE FROM todos
             WHERE id = $1
             RETURNING *;
-         
         `, [id]);
         
         res.json(result.rows[0]);
